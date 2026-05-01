@@ -7,3 +7,11 @@
 
 # ARCHIVES
 - notes/vieux-trucs.md
+
+# Xbox
+
+-note/xbox/bienvenue.md
+
+# Playstation
+
+-note/playstation/bienvenue.md
