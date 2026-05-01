@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,12 +8,13 @@
     <!-- SEO -->
     <meta name="description" content="Un lecteur de vault Obsidian statique élégant pour GitHub Pages.">
     
-    <!-- Fonts -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" id="dynamic-fonts">
     
     <!-- Styles -->
+    <link rel="stylesheet" href="assets/themes.css">
     <link rel="stylesheet" href="assets/style.css">
     
     <!-- Prism Syntax Highlighting -->
@@ -24,27 +25,83 @@
 </head>
 <body>
 
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <button id="mobile-toggle" class="icon-btn">
+            <i data-lucide="menu"></i>
+        </button>
+        <span>OBSIDIAN VAULT</span>
+        <button id="open-settings-mobile" class="icon-btn">
+            <i data-lucide="settings"></i>
+        </button>
+    </header>
+
     <aside id="sidebar">
         <div class="sidebar-header">
-            <i data-lucide="book-open" style="color: var(--accent-color);"></i>
-            <span>OBSIDIAN VAULT</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i data-lucide="book-open" style="color: var(--accent-color);"></i>
+                <span>OBSIDIAN VAULT</span>
+            </div>
+            <button class="settings-btn" id="open-settings" title="Paramètres">
+                <i data-lucide="settings"></i>
+            </button>
         </div>
         <div class="sidebar-content" id="sidebar-content">
             <!-- Navigation will be injected here -->
         </div>
     </aside>
 
+    <!-- Overlay for mobile sidebar -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
     <main>
         <div id="loader" class="loader"></div>
         <div class="content-container">
             <article id="markdown-content">
-                <!-- Content will be injected here -->
                 <div style="padding: 20px; text-align: center; color: var(--text-muted);">
                     Chargement de votre vault...
                 </div>
             </article>
         </div>
     </main>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Paramètres</h3>
+                <button class="modal-close" id="close-settings"><i data-lucide="x"></i></button>
+            </div>
+            
+            <div class="setting-group">
+                <label class="setting-label">Thème</label>
+                <div class="theme-selector">
+                    <div class="theme-option" data-theme-val="dark">Dark</div>
+                    <div class="theme-option" data-theme-val="dim">Dim</div>
+                    <div class="theme-option" data-theme-val="light">Light</div>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">Police (Navigation)</label>
+                <input type="text" id="font-sidebar-input" class="setting-control" placeholder="ex: Roboto, Open Sans...">
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">Police (Contenu)</label>
+                <input type="text" id="font-content-input" class="setting-control" placeholder="ex: Merriweather, Georgia...">
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">Taille du texte (px)</label>
+                <input type="number" id="font-size-input" class="setting-control" min="12" max="24" value="16">
+            </div>
+
+            <div style="text-align: right; margin-top: 20px;">
+                <button class="setting-control" id="save-settings" style="width: auto; background: var(--accent-color); color: white; border: none; cursor: pointer; padding: 10px 20px;">Enregistrer</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
