@@ -3,14 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Obsidian Web Viewer</title>
+    <title>Obsidian Web Reader</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://obsidian.md/favicon.ico">
+    <link rel="apple-touch-icon" href="https://obsidian.md/favicon.ico">
     
     <!-- SEO -->
-    <meta name="description" content="Un lecteur de vault Obsidian statique élégant pour GitHub Pages.">
+    <meta name="description" content="Obsidian Web Reader - Une interface élégante pour lire votre vault Obsidian en ligne.">
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Initial Fonts (Default) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" id="dynamic-fonts">
     
     <!-- Styles -->
@@ -30,28 +36,43 @@
         <button id="mobile-toggle" class="icon-btn">
             <i data-lucide="menu"></i>
         </button>
-        <span>OBSIDIAN VAULT</span>
+        <span style="font-weight: 700;">OBSIDIAN WEB READER</span>
         <button id="open-settings-mobile" class="icon-btn">
             <i data-lucide="settings"></i>
         </button>
     </header>
 
     <aside id="sidebar">
-        <div class="sidebar-header">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <i data-lucide="book-open" style="color: var(--accent-color);"></i>
-                <span>OBSIDIAN VAULT</span>
+        <div class="sidebar-header-main">
+            <div class="logo-area">
+                <img src="https://obsidian.md/favicon.ico" width="18" height="18" alt="Obsidian">
+                <span>Web Reader</span>
             </div>
             <button class="settings-btn" id="open-settings" title="Paramètres">
                 <i data-lucide="settings"></i>
             </button>
         </div>
+
+        <div class="view-switcher">
+            <button class="view-btn active" data-view="explorer" title="Explorateur">
+                <i data-lucide="folder-tree"></i>
+            </button>
+            <button class="view-btn" data-view="cascade" title="Cascade">
+                <i data-lucide="layout-list"></i>
+            </button>
+            <button class="view-btn" data-view="list" title="Liste">
+                <i data-lucide="list"></i>
+            </button>
+        </div>
+
         <div class="sidebar-content" id="sidebar-content">
             <!-- Navigation will be injected here -->
         </div>
+
+        <!-- Resize Handle -->
+        <div id="resize-handle" class="resize-handle"></div>
     </aside>
 
-    <!-- Overlay for mobile sidebar -->
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
     <main>
@@ -82,23 +103,33 @@
                 </div>
             </div>
 
-            <div class="setting-group">
-                <label class="setting-label">Police (Navigation)</label>
-                <input type="text" id="font-sidebar-input" class="setting-control" placeholder="ex: Roboto, Open Sans...">
+            <div class="settings-flex">
+                <div class="settings-col">
+                    <label class="setting-label">Navigation (Menu)</label>
+                    <div class="setting-subgroup">
+                        <label>Police</label>
+                        <select id="font-sidebar-select" class="setting-control"></select>
+                    </div>
+                    <div class="setting-subgroup">
+                        <label>Taille (px)</label>
+                        <input type="number" id="font-size-sidebar" class="setting-control" min="10" max="20" value="14">
+                    </div>
+                </div>
+                <div class="settings-col">
+                    <label class="setting-label">Lecture (Contenu)</label>
+                    <div class="setting-subgroup">
+                        <label>Police</label>
+                        <select id="font-content-select" class="setting-control"></select>
+                    </div>
+                    <div class="setting-subgroup">
+                        <label>Taille (px)</label>
+                        <input type="number" id="font-size-content" class="setting-control" min="12" max="26" value="16">
+                    </div>
+                </div>
             </div>
 
-            <div class="setting-group">
-                <label class="setting-label">Police (Contenu)</label>
-                <input type="text" id="font-content-input" class="setting-control" placeholder="ex: Merriweather, Georgia...">
-            </div>
-
-            <div class="setting-group">
-                <label class="setting-label">Taille du texte (px)</label>
-                <input type="number" id="font-size-input" class="setting-control" min="12" max="24" value="16">
-            </div>
-
-            <div style="text-align: right; margin-top: 20px;">
-                <button class="setting-control" id="save-settings" style="width: auto; background: var(--accent-color); color: white; border: none; cursor: pointer; padding: 10px 20px;">Enregistrer</button>
+            <div style="text-align: right; margin-top: 25px;">
+                <button class="save-btn" id="save-settings">Enregistrer</button>
             </div>
         </div>
     </div>
