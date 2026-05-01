@@ -32,11 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebarWidth: 280
     };
 
-    let navigationData = []; // Store parsed navigation for re-rendering
+    let navigationData = [];
 
-    /**
-     * Initialization
-     */
     function init() {
         populateFontDropdowns();
         loadSettings();
@@ -48,16 +45,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function populateFontDropdowns() {
         professionalFonts.forEach(font => {
-            const opt1 = new Option(font, font);
-            const opt2 = new Option(font, font);
-            fontSidebarSelect.add(opt1);
-            fontContentSelect.add(opt2);
+            fontSidebarSelect.add(new Option(font, font));
+            fontContentSelect.add(new Option(font, font));
         });
     }
 
-    /**
-     * Settings & Theme
-     */
     function loadSettings() {
         const saved = localStorage.getItem('obsidian-web-reader-settings');
         if (saved) currentSettings = { ...currentSettings, ...JSON.parse(saved) };
@@ -72,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.style.setProperty('--font-size-sidebar', `${currentSettings.fontSizeSidebar}px`);
         document.documentElement.style.setProperty('--font-size-content', `${currentSettings.fontSizeContent}px`);
 
-        // Update UI
         fontSidebarSelect.value = currentSettings.fontSidebar;
         fontContentSelect.value = currentSettings.fontContent;
         fontSizeSidebarInput.value = currentSettings.fontSizeSidebar;
@@ -85,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         themeOptions.forEach(opt => opt.classList.toggle('active', opt.getAttribute('data-theme-val') === currentSettings.theme));
 
-        // Dynamic Font Loading
         const fontsToLoad = [currentSettings.fontSidebar, currentSettings.fontContent].filter(f => f !== 'Inter');
         if (fontsToLoad.length > 0) {
             const fontQuery = Array.from(new Set(fontsToLoad)).map(f => f.replace(/ /g, '+')).join('|');
@@ -94,41 +84,44 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Resizer Logic
+     * Resizer Logic - Optimized for fluidity
      */
     function setupResizer() {
         let isResizing = false;
+        let animationFrame = null;
+
         resizeHandle.addEventListener('mousedown', (e) => {
             isResizing = true;
+            document.body.classList.add('resizing');
             document.body.style.cursor = 'col-resize';
-            document.body.style.userSelect = 'none';
         });
 
         document.addEventListener('mousemove', (e) => {
             if (!isResizing) return;
-            const newWidth = Math.min(Math.max(e.clientX, 200), 500);
-            currentSettings.sidebarWidth = newWidth;
-            document.documentElement.style.setProperty('--sidebar-width', `${newWidth}px`);
+            
+            if (animationFrame) cancelAnimationFrame(animationFrame);
+            
+            animationFrame = requestAnimationFrame(() => {
+                const newWidth = Math.min(Math.max(e.clientX, 200), 500);
+                currentSettings.sidebarWidth = newWidth;
+                document.documentElement.style.setProperty('--sidebar-width', `${newWidth}px`);
+            });
         });
 
         document.addEventListener('mouseup', () => {
             if (isResizing) {
                 isResizing = false;
+                document.body.classList.remove('resizing');
                 document.body.style.cursor = 'default';
-                document.body.style.userSelect = 'auto';
                 saveSettingsState();
             }
         });
     }
 
-    /**
-     * View Switching
-     */
     function setupViewSwitching() {
         viewButtons.forEach(btn => {
             btn.addEventListener('click', () => {
-                const mode = btn.getAttribute('data-view');
-                currentSettings.viewMode = mode;
+                currentSettings.viewMode = btn.getAttribute('data-view');
                 applySettings();
                 renderSidebar(navigationData);
                 saveSettingsState();
@@ -136,14 +129,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /**
-     * Navigation & Rendering
-     */
     async function loadNavigation() {
         try {
             const response = await fetch('navigation.md');
             const text = await response.text();
-            
             const lines = text.split('\n');
             navigationData = [];
             let currentSection = null;
@@ -160,10 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             renderSidebar(navigationData);
-            
             const firstItem = document.querySelector('.nav-item');
             if (firstItem) firstItem.click();
-
         } catch (e) {
             sidebarContent.innerHTML = '<div style="padding:20px;">Erreur navigation.md</div>';
         }
@@ -192,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!cur.children[part]) {
                     cur.children[part] = { 
                         name: part.replace('.md', ''), 
+                        parentName: i > 0 ? parts[i-1] : '',
                         path: i === parts.length - 1 ? path : null,
                         isFolder: i < parts.length - 1,
                         children: {} 
@@ -227,11 +215,23 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 const item = document.createElement('div');
                 item.className = 'nav-item';
-                item.textContent = node.name;
+                
+                // Add folder hint for List view
+                if (currentSettings.viewMode === 'list' && node.parentName) {
+                    const hint = document.createElement('span');
+                    hint.className = 'folder-hint';
+                    hint.textContent = node.parentName;
+                    item.appendChild(hint);
+                }
+                
+                const name = document.createElement('span');
+                name.textContent = node.name;
+                item.appendChild(name);
+
                 item.addEventListener('click', (e) => {
                     e.stopPropagation();
                     loadMarkdown(node.path, item);
-                    if (window.innerWidth <= 1024) document.getElementById('sidebar').classList.remove('open');
+                    if (window.innerWidth <= 1024) sidebar.classList.remove('open');
                 });
                 group.appendChild(item);
             }
@@ -259,9 +259,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * Settings Actions
-     */
     function saveSettingsState() {
         localStorage.setItem('obsidian-web-reader-settings', JSON.stringify(currentSettings));
     }
