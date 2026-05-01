@@ -10,8 +10,8 @@
 
 # Xbox
 
--note/xbox/bienvenue.md
+- notes/xbox/bienvenue.md
 
 # Playstation
 
--note/playstation/bienvenue.md
+- notes/playstation/bienvenue.md
