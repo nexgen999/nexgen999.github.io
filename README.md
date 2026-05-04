@@ -1,4 +1,4 @@
-# 🚀 Powered By Nexgen - "Fluent Github5ai" ( v1.1 multi-sources )
+# 🚀 Powered By Nexgen - "Fluent Github5ai"
 
 **This is my github page for files and demo**
 
