@@ -13,8 +13,8 @@
 ---
 **Powered By Nexgen**
 
-**"Fluent Github5ai" ( v1.1 multi-sources )**
-**"Fluent CMS"**
-**"Obsidian web Reader"**
-**"RepoPulse-Dashboard"**
-**"Y2JB UI Design"**
+- **"Fluent Github5ai" ( v1.1 multi-sources )**
+- **"Fluent CMS"**
+- **"Obsidian web Reader"**
+- **"RepoPulse-Dashboard"**
+- **"Y2JB UI Design"**
