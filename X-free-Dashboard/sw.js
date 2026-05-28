@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-const CACHE_NAME = 'x-free-dashboard-cache-v3';
+const CACHE_NAME = 'x-free-dashboard-cache-v4';
 const ASSETS = [
   '/',
   '/index.html',
