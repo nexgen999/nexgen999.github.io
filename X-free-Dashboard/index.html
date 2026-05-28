@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>X-Free Dashboard</title>
+    <!-- Web app manifest integration -->
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="icon" type="image/png" href="./pwa_icon.png" />
+    <link rel="apple-touch-icon" href="./pwa_icon.png" />
+    <!-- Apple Mobile/PWA styling -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- Dynamic Google Fonts importing -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script type="module" crossorigin src="./assets/index-xfPA7iSs.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-2cwfxPw6.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    
+    <!-- Service Worker registration script -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('Service Worker enregistré avec succès !', reg.scope))
+            .catch(err => console.warn('Échec de l\'enregistrement du Service Worker :', err));
+        });
+      }
+    </script>
+  </body>
+</html>
+

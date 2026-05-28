@@ -1,0 +1,62 @@
+{
+  "name": "X-Free Dashboard",
+  "short_name": "X-Free",
+  "description": "Dashboard de gestion, planification, suivi et optimisation pour les comptes gratuits de X (Twitter).",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#15202B",
+  "theme_color": "#1DA1F2",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/pwa_icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/pwa_icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Rédiger un Post",
+      "url": "/?tab=composer",
+      "icons": [
+        {
+          "src": "/pwa_icon.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Calendrier de l'Ombre",
+      "url": "/?tab=calendar",
+      "icons": [
+        {
+          "src": "/pwa_icon.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot_desktop.png",
+      "sizes": "1024x576",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "X-Free Dashboard sur Bureau"
+    },
+    {
+      "src": "/screenshot_mobile.png",
+      "sizes": "576x1024",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "X-Free Dashboard sur Mobile"
+    }
+  ]
+}
